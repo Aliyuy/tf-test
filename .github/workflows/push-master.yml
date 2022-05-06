@@ -1,0 +1,31 @@
+name: apply
+on:
+  push:
+    branches:
+      - master
+env:
+  node_version: '14'
+  tf_actions_working_dir: '.'
+  tf_workspace: default
+  tf_version: 1.0.8
+jobs:
+  terraform-push-adm:
+    name: 'Apply configuration to ex-adm'
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: ${{ env.tf_actions_working_dir }}
+
+    steps:
+    - uses: actions/checkout@v2.0.0
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.node_version }}
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.tf_version }}
+
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -recursive
+      continue-on-error: false
