@@ -2,7 +2,7 @@ name: apply
 on:
   push:
     branches:
-      - master
+      - main
 env:
   node_version: '14'
   tf_actions_working_dir: '.'
